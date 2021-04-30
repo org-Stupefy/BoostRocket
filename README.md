@@ -1,11 +1,11 @@
 # BoostRocket
 
-![BoostRocket](/Resources/Branding/BoostRocketPlay-1.png?raw=true "Victoria")
+![BoostRocket](/Resources/Branding/BoostRocketPlay-1.png?raw=true "BoostRocket")
 
-![build](https://github.com/org-Stupefy/BoostRocket/workflows/build/badge.svg)
+![build](https://github.com/org-Stupefy/BoostRocket/workflows/Windows-Build/badge.svg)
 
 BoostRocket is a simple 2D game inspired from FlappyBird game.
-BoostRocket uses [Victoria](https://github.com/org-Stupefy/Victoria) at its core.
+BoostRocket uses [Victoria](https://github.com/org-Stupefy/Victoria) engine at its core.
 
 ## Getting Started
 
@@ -17,4 +17,4 @@ If the repository was cloned non-recursively previously, use `git submodule upda
 
 ## Building
 
-BoostRocket uses premake5 for generating solutions. Run the [Win-GenProjects.bat](scripts/Win-GenProjects.bat) from scripts folder and it will generate vs19 solution file.
+BoostRocket uses premake5 for generating solutions. Run the [Win-GenProjects.bat](scripts/Win-GenProjects.bat) from scripts folder and it will generate Visual Studio 2019 solution file `Victoria.sln`.

@@ -1,32 +1,4 @@
-# name: Win-build
-
-# on:
-#   push: {}
-#   pull_request: {}
-
-# jobs:
-#   build:
-#     runs-on: windows-latest
-#     defaults:
-#       run:
-#         shell: cmd
-#     steps:
-#       - uses: actions/checkout@v2
-#         with:
-#           submodules: recursive
-
-#       - name: Setup MSBuild
-#         uses: microsoft/setup-msbuild@v1.0.2
-
-#       - name: Generating Victoria Files
-#         run: ./scripts/Win-GenProjects.bat
-
-#       - name: Building...
-#         run: |
-#           cd build
-#           msbuild -property:Configuration=Release,MultiProcessorCompilation=true -maxCpuCount -verbosity:minimal -noLogo Victoria.sln
-
-name: Win-build
+name: Windows-Build
 
 on:
   push: {}
