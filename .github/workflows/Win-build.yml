@@ -1,3 +1,31 @@
+# name: Win-build
+
+# on:
+#   push: {}
+#   pull_request: {}
+
+# jobs:
+#   build:
+#     runs-on: windows-latest
+#     defaults:
+#       run:
+#         shell: cmd
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           submodules: recursive
+
+#       - name: Setup MSBuild
+#         uses: microsoft/setup-msbuild@v1.0.2
+
+#       - name: Generating Victoria Files
+#         run: ./scripts/Win-GenProjects.bat
+
+#       - name: Building...
+#         run: |
+#           cd build
+#           msbuild -property:Configuration=Release,MultiProcessorCompilation=true -maxCpuCount -verbosity:minimal -noLogo Victoria.sln
+
 name: Win-build
 
 on:
@@ -5,23 +33,50 @@ on:
   pull_request: {}
 
 jobs:
-  build:
+  Windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: cmd
+    env:
+      VS_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\
+      MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\
     steps:
       - uses: actions/checkout@v2
         with:
-          submodules: recursive
+          fetch-depth: 1
+          submodules: true
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.0.2
+      # - name: Install Dependencies
+      #   shell: powershell
+      #   run: |
+      #     Invoke-WebRequest -Uri "https://github.com/org-Stupefy/Victoria/tree/master/thirdparty/premake/bin/premake5.exe" -OutFile premake5.exe
+      #     Expand-Archive -Path premake5.exe
 
-      - name: Generating Victoria Files
-        run: ./scripts/Win-GenProjects.bat
-
-      - name: Building...
+      - name: Generating Dependencies
+        shell: cmd
         run: |
-          cd build
-          msbuild -property:Configuration=Release,MultiProcessorCompilation=true -maxCpuCount -verbosity:minimal -noLogo Victoria.sln
+          cd scripts
+          call "%VS_PATH%\VC\Auxiliary\Build\vcvars64.bat"
+          .\Win-GenProjects.bat /W4
+
+      - name: Building Glad
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" Victoria/thirdparty/Glad/Glad.vcxproj /p:Platform=x64 /p:Configuration=Release'
+
+      - name: Building GLFW
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" Victoria/thirdparty/GLFW/GLFW.vcxproj /p:Platform=x64 /p:Configuration=Release'
+
+      - name: Building ImGui
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" Victoria/thirdparty/imgui/ImGui.vcxproj /p:Platform=x64 /p:Configuration=Release'
+
+      - name: Building Yaml-Cpp
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" Victoria/thirdparty/yaml-cpp/yaml-cpp.vcxproj /p:Platform=x64 /p:Configuration=Release'
+
+      - name: Building Victoria
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" Victoria/Victoria.vcxproj /p:Platform=x64 /p:Configuration=Release'
+
+      - name: Building BoostRocket
+        shell: cmd
+        run: '"%MSBUILD_PATH%\MSBuild.exe" BoostRocket/BoostRocket.vcxproj /p:Platform=x64 /p:Configuration=Release'
