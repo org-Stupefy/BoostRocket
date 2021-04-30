@@ -1,0 +1,27 @@
+# Binaries
+**/bin/
+!thirdparty/premake/bin/
+bin-int/
+build/
+build.zip
+
+# Victoria files
+*.log
+*.json
+*.vic
+*.ini
+
+# Visual Studio files and folder
+.vs/
+.vscode/
+.VSCodeCounter/
+**.sln
+**.vcxproj
+**.vcxproj.filters
+**.vcxproj.user
+
+# Project Generation
+Makefile
+
+#Temporary
+# Victoria/thirdparty/assimp/
